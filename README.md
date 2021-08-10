@@ -116,3 +116,14 @@ If you can see the following information from can1 in the terminal monitoring ca
 ```bash
 can0 200 [8] 5A 5A 5A 5A 5A 5A 5A 5A
 ```
+
+***
+
+### License
+
+The source code is released under a[MIT License](https://github.com/rm-controls/rm_usb2can/blob/main/LICENSE).
+
+**Affiliation：DynamicX
+Maintainer：YanzhenZhu, 2208213223@qq.com**
+
+The product has been tested under Ubuntu 18.04 and 20.04. This is research code, expect that it changes often and any fitness for a particular purpose is disclaimed.
