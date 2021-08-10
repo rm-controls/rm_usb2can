@@ -17,3 +17,11 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 + programming Tool: STM32CubeProgrammer v2.6.0
 
 ### Circuit Design
+
+&nbsp;&nbsp;&nbsp;&nbsp;USB hub circuit design: since the whole vehicle needs at least two can buses to ensure the integrity of the data packet returned by the motor, we use GL850G as the USB HUB chip to realize the scheme of USB one driving four.
+
+![usb_hub](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/usb_hub.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;USB to can circuit design: use STM32F072CBT6 to realize the function of USB to can. The can level conversion chip adopts MAX3051 chip, which uses 3.3V power supply and is packaged as SOT23-8, which provides the basis for PCB miniaturization.
+
+![stm32_can](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_can.png)

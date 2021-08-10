@@ -16,4 +16,12 @@
 + 编译工具： gcc-arm-none-eabi  8-2019-q3-update
 + 烧录工具： STM32CubeProgrammer v2.6.0
 
-### 开发工具
+### 电路设计
+
+&nbsp;&nbsp;&nbsp;&nbsp;USB HUB电路设计：由于整车需要至少2路CAN总线来保证电机回传数据包的完整性，所以我们采用了GL850G作为USB HUB芯片实现USB一拖四的方案。
+
+![usb_hub](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/usb_hub.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;USB转CAN电路设计：用STM32F072CBT6实现USB转CAN功能。CAN电平转换芯片采用MAX3051芯片，该芯片使用3.3V供电，且封装为SOT23-8，为PCB小型化提供了基础。
+
+![stm32_can](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_can.png)
