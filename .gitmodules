@@ -1,0 +1,3 @@
+[submodule "candlelight"]
+	path = candlelight
+	url = git@github.com:candle-usb/candleLight_fw.git
