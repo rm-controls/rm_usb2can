@@ -20,6 +20,17 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 
 ***
 
+### Directory Structure
+
++ bom: three different versions of usb2can material forms.
++ candlelight: the repository of GitHub's open source solution [candleLight](https://github.com/candle-usb/candleLight_fw/tree/master).
++ circuit: circuit schematic diagram and PCB source file designed with Altium designer.
++ gerber: three different versions of usb2can manufacturing documents.
++ image: picture in readme.
++ firmware.bin: Compiled program binaries.
+
+***
+
 ### Circuit Design
 
 #### Key Points Of Schematic Design

@@ -20,6 +20,17 @@
 
 ***
 
+### 目录结构
+
++ bom：三个不同版本的USB2CAN物料表单。
++ candlelight：github开源方案[candleLight](https://github.com/candle-usb/candleLight_fw/tree/master)的仓库。
++ circuit：用Altium Designer设计的电路原理图及PCB源文件。
++ gerber：三个不同版本的USB2CAN制造文件。
++ image：README中的图片。
++ firmware.bin：编译好的程序二进制文件。
+
+***
+
 ### 电路设计
 
 #### 原理图设计要点
