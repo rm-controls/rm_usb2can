@@ -59,3 +59,61 @@
 
 1. 将STM32上BOOT0引脚的下拉电阻取下，焊接上上拉电阻。
 2. 将板子连接到电脑的USB口中，打开STM32CubeProgrammer。
+3. 在STM32CubeProgrammer中点击下图所示的三个按钮，搜寻可用的STM32设备。
+
+![stm32_programer_1](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_programer_1.png)
+
+4. 连接成功后点击“Read”按钮以读取固件，选择准备好的固件。
+
+![stm32_programer_2](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_programer_2.png)
+
+5. 点击“Download”以下载固件。下载成功后，可以看到成功的标识。
+
+![stm32_programer_3](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_programer_3.png)
+
+6. 将STM32上BOOT0引脚的上拉电阻取下，焊接上下拉电阻。此时再重新上电，固件将在STM32上开始运行。
+
+***
+
+### 在Ubuntu上测试功能
+
+1. 安装依赖软件包：
+
+```bash
+$ sudo apt-get update && sudo apt-get -y upgrade
+$ sudo apt-get install -y can-utils net-tools
+```
+
+2. 查看是否检测到CAN设备：
+
+```bash
+$ ifconfig -a
+# 如果在列表中发现含有can名称的设备就说明该设备可以被识别到了
+```
+
+3. 用**直连线**将两个CAN口连接起来，便于进行回环测试。
+4. 初始化CAN0和CAN1设备，比特率为1Mbits：
+
+```bash
+$ sudo ip link set can0 up type can bitrate 1000000
+$ sudo ip link set can1 up type can bitrate 1000000
+```
+
+5. 打开一个新终端用于监测can0接收到的信息：
+
+```bash
+$ candump can0
+```
+
+6. 在一个终端中使用can1发送信息：
+
+```bash
+$ cansend can1 200#5A5A5A5A5A5A5A5A
+```
+
+若能在监测can0的终端中看到can1发来的信息如下，说明通信成功，模块工作正常。
+
+```bash
+can0 200 [8] 5A 5A 5A 5A 5A 5A 5A 5A
+```
+

@@ -59,3 +59,60 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 
 1. Remove the pull-down resistance of BOOT0 pin of STM32 and weld the pull-up resistance.
 2. Connect the board to the USB port of the computer and open STM32CubeProgrammer.
+3. Click the three buttons shown in the following figure in STM32CubeProgrammer to search for available STM32 devices.
+
+![stm32_programer_1](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_programer_1.png)
+
+4. After successful connection, click the "Read" button to read the firmware and select the prepared firmware.
+
+![stm32_programer_2](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_programer_2.png)
+
+5. Click "Download" to download the firmware. After the download is successful, you can see the successful information.
+
+![stm32_programer_3](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_programer_3.png)
+
+6. Remove the pull-up resistance of BOOT0 pin on STM32 and weld the pull-down resistance. Power on again at this time, and the firmware will start running on STM32.
+
+***
+
+### Test Features On Ubuntu
+
+1. Install dependent packages:
+
+```bash
+$ sudo apt-get update && sudo apt-get -y upgrade
+$ sudo apt-get install -y can-utils net-tools
+```
+
+2. Check whether can device is detected:
+
+```bash
+$ ifconfig -a
+# If a device with can name is found in the list, it means that the device can be recognized
+```
+
+3. Connect the two can ports with a **straight line** to facilitate loop back test.
+4. Initialize CAN0 and CAN1 devices with a bit rate of 1Mbits:
+
+```bash
+$ sudo ip link set can0 up type can bitrate 1000000
+$ sudo ip link set can1 up type can bitrate 1000000
+```
+
+5. Open a new terminal to monitor the information received by can0:
+
+```bash
+$ candump can0
+```
+
+6. Sending information using can1 in a terminal:
+
+```bash
+$ cansend can1 200#5A5A5A5A5A5A5A5A
+```
+
+If you can see the following information from can1 in the terminal monitoring can0, it indicates that the communication is successful and the module works normally.
+
+```bash
+can0 200 [8] 5A 5A 5A 5A 5A 5A 5A 5A
+```
