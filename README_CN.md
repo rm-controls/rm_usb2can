@@ -8,7 +8,7 @@
 
 ### 简介
 
-&nbsp;&nbsp;&nbsp;&nbsp;本项目的开发目的是为了给NUC提供一个CAN的外设接口。由于NUC不具有SPI等简单外设接口，故无法使用MCP2515等SPI转CAN芯片。为此，本项目基于github的开源方案[candleLight](https://github.com/candle-usb/candleLight_fw/tree/master)开发，采用STM32F072CBT6作为主控芯片，实现USB转CAN的功能。STM32F072CBT6具有能够同时工作的USB全速外设和CAN外设，封装为QFP64，是较为优秀的解决方案。
+&nbsp;&nbsp;&nbsp;&nbsp;本项目的开发目的是为了给[英特尔® NUC](https://www.intel.cn/content/www/cn/zh/products/details/nuc.html)提供一个CAN (Controller Area Network)的外设接口。由于NUC不具有SPI等简单外设接口，故无法使用MCP2515等SPI (Serial Peripheral Interface) 转CAN芯片。为此，本项目基于github的开源方案[candleLight](https://github.com/candle-usb/candleLight_fw/tree/master)开发，采用STM32F072CBT6作为主控芯片，实现USB (Universal Serial Bus) 转CAN的功能。STM32F072CBT6具有能够同时工作的USB全速外设和CAN外设，封装为QFP64 (Quad Flat Package)，是较为优秀的解决方案。
 
 ***
 
@@ -28,7 +28,7 @@
 
 ![usb_hub](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/usb_hub.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;USB转CAN电路设计：用STM32F072CBT6实现USB转CAN功能。CAN电平转换芯片采用MAX3051芯片，该芯片使用3.3V供电，且封装为SOT23-8，为PCB小型化提供了基础。图中的R6、R7电阻用途为更改STM32的Boot模式，从而使STM32能够通过更改R6、R7的短接模式而在DFU烧录模式与Flash模式下切换，方便烧录固件。
+&nbsp;&nbsp;&nbsp;&nbsp;USB转CAN电路设计：用STM32F072CBT6实现USB转CAN功能。CAN电平转换芯片采用MAX3051EKA芯片，该芯片使用3.3V供电，且封装为SOT23-8 (Small Outline Transistor)，为PCB小型化提供了基础。图中的R6、R7电阻用途为更改STM32的Boot模式，从而使STM32能够通过更改R6、R7的短接模式而在DFU (Device Firmware Upgrade) 烧录模式与Flash模式下切换，方便烧录固件。
 
 ![stm32_can](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/stm32_can.png)
 
@@ -36,3 +36,19 @@
 
 1. 所有USB总线需要设置成差分对，在布线时严格遵循差分信号布线规则。
 2. 所有CAN总线需要设置成差分对，在布线时严格遵循差分信号布线规则。
+3. 晶振和谐振电容底部最好挖空不铺铜。
+4. 电源线线宽应尽量大于0.3mm以保证电源轨道不塌陷。
+
+***
+
+### 电路制作
+
+&nbsp;&nbsp;&nbsp;&nbsp;我们提供了三个不同版本的Gerber文件用于生产，分别是扩展：两路CAN+两路UART、四路CAN、两路UART。这三种版本的电路均采用两层PCB进行设计，面积约为20*30mm。你可以直接将打包好的gerber文件提交个生产厂家（如：[嘉立创](https://www.jlc.com/#)）进行生产。
+
+&nbsp;&nbsp;&nbsp;&nbsp;你可以在此处找到该板对应的BOM (Bill Of Material) 表，并且依据这张表格将元器件焊接到已经制作好的PCB上。焊接完成后，请仔细检查是否有引脚之间有残余的焊锡，那将会导致电路板发生短路，同时你还要检查引脚是否有虚焊的现象发生。
+
+&nbsp;&nbsp;&nbsp;&nbsp;焊接完成后，用万用表检查5V电源接口与GND之间是否短路、3.3V电源输出与GND之间是否短路。当确保上述情况没有出现时，再将板子连接电脑的USB口，此时应该可以看到板上的电源指示灯亮起，并且电脑能够识别到USB HUB芯片。
+
+**注意：请勿同时焊接用于切换STM32下载模式的上/下拉电阻，那样有可能使电源与GND之间出现短路！**
+
+***
