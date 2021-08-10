@@ -123,7 +123,7 @@ can0 200 [8] 5A 5A 5A 5A 5A 5A 5A 5A
 
 源代码根据[MIT条款许可证](https://github.com/rm-controls/rm_usb2can/blob/main/LICENSE)发布。
 
-**组织：DynamicX
+**组织：DynamicX <br>
 维护人：朱彦臻, 2208213223@qq.com**
 
 该产品已经在Ubuntu 18.04和20.04下进行了测试。这是一个研究代码，希望它经常更改，并且不承认任何特定用途的适用性。
