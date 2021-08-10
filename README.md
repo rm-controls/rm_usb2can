@@ -50,3 +50,12 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 &nbsp;&nbsp;&nbsp;&nbsp;After welding, use a multimeter to check whether there is a short circuit between 5V power interface and GND, and whether there is a short circuit between 3.3V power output and GND. When the above situation does not occur, connect the board to the USB port of the computer. At this time, you should see that the power indicator on the board is on, and the computer can recognize the USB HUB chip.
 
 **Note: do not weld the up / down resistance used to switch STM32 download mode at the same time, as it may cause a short circuit between the power supply and GND!**
+
+***
+
+### Firmware Programming
+
+&nbsp;&nbsp;&nbsp;&nbsp;You can [click here](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/firmware.bin) to download the compiled firmware, or follow the [candlelight documentation](https://github.com/candle-usb/candleLight_fw/tree/master#building) compile firmware by yourself. Finally, you will get the .bin file. We use [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html) to burn the firmware into STM32 through USB. The steps to download firmware are shown below:
+
+1. Remove the pull-down resistance of BOOT0 pin of STM32 and weld the pull-up resistance.
+2. Connect the board to the USB port of the computer and open STM32CubeProgrammer.
