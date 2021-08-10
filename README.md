@@ -121,7 +121,7 @@ can0 200 [8] 5A 5A 5A 5A 5A 5A 5A 5A
 
 ### License
 
-The source code is released under a[MIT License](https://github.com/rm-controls/rm_usb2can/blob/main/LICENSE).
+The source code is released under a [MIT License](https://github.com/rm-controls/rm_usb2can/blob/main/LICENSE).
 
 **Affiliation：DynamicX<br>
 Maintainer：YanzhenZhu, 2208213223@qq.com**
