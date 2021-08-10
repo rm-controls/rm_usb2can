@@ -1,0 +1,4 @@
+Layer Pairs Export File for PCB: D:\Desktop\Files\RoboMaser\usb2can\USB2ANY.PcbDoc
+LayersSetName=Top_Bot_Plated_Thru_Holes|DrillFile=usb2any-roundholes-plated.txt|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_Plated_Slot_Holes|DrillFile=usb2any-slotholes-plated.txt|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_NonPlated_Thru_Holes|DrillFile=usb2any-roundholes-nonplated.txt|DrillLayers=gtl,gbl
