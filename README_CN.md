@@ -54,9 +54,9 @@
 
 ### 电路制作
 
-&nbsp;&nbsp;&nbsp;&nbsp;我们提供了三个不同版本的Gerber文件用于生产，分别是扩展：两路CAN+两路UART、四路CAN、两路UART。这三种版本的电路均采用两层PCB进行设计，面积约为20*30mm。你可以直接将打包好的gerber文件提交个生产厂家（如：[嘉立创](https://www.jlc.com/#)）进行生产。
+&nbsp;&nbsp;&nbsp;&nbsp;我们提供了三个不同版本的Gerber文件用于生产，分别是扩展：[两路CAN+两路UART](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2CAN%2B2UART)、[四路CAN](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/4CAN)、[两路UART](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2UART)。这三种版本的电路均采用两层PCB进行设计，面积约为20*30mm。你可以直接将打包好的gerber文件提交个生产厂家（如：[嘉立创](https://www.jlc.com/#)）进行生产。
 
-&nbsp;&nbsp;&nbsp;&nbsp;你可以在此处找到该板对应的BOM (Bill Of Material) 表，并且依据这张表格将元器件焊接到已经制作好的PCB上。焊接完成后，请仔细检查是否有引脚之间有残余的焊锡，那将会导致电路板发生短路，同时你还要检查引脚是否有虚焊的现象发生。
+&nbsp;&nbsp;&nbsp;&nbsp;你可以在[此处](https://github.com/rm-controls/rm_usb2can/tree/main/bom)找到该板对应的BOM (Bill Of Material) 表，并且依据这张表格将元器件焊接到已经制作好的PCB上。焊接完成后，请仔细检查是否有引脚之间有残余的焊锡，那将会导致电路板发生短路，同时你还要检查引脚是否有虚焊的现象发生。
 
 &nbsp;&nbsp;&nbsp;&nbsp;焊接完成后，用万用表检查5V电源接口与GND之间是否短路、3.3V电源输出与GND之间是否短路。当确保上述情况没有出现时，再将板子连接电脑的USB口，此时应该可以看到板上的电源指示灯亮起，并且电脑能够识别到USB HUB芯片。
 

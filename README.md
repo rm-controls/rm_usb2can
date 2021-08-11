@@ -54,9 +54,9 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 
 ### Circuit Making
 
-&nbsp;&nbsp;&nbsp;&nbsp;We provide three different versions of Gerber files for production: two-way CAN + two-way UART, four-way CAN, two-way UART.The circuits of these three versions are designed with two-layer PCB, with an area of about 20 * 30MM. You can directly submit the packaged Gerber file to a manufacturer (such as [jlc](https://www.jlc.com/#)) for production.
+&nbsp;&nbsp;&nbsp;&nbsp;We provide three different versions of Gerber files for production: [two-way CAN + two-way UART](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2CAN%2B2UART), [four-way CAN](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/4CAN), [two-way UART](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2UART).The circuits of these three versions are designed with two-layer PCB, with an area of about 20 * 30MM. You can directly submit the packaged Gerber file to a manufacturer (such as [jlc](https://www.jlc.com/#)) for production.
 
-&nbsp;&nbsp;&nbsp;&nbsp;You can find the BOM (Bill Of Material) table corresponding to the board here and weld the components to the fabricated PCB according to this table. After welding, please carefully check whether there is residual solder between the pins, which will lead to short circuit of the circuit board. At the same time, you should also check whether there is false soldering of the pins.
+&nbsp;&nbsp;&nbsp;&nbsp;You can find the BOM (Bill Of Material) table corresponding to the board [here](https://github.com/rm-controls/rm_usb2can/tree/main/bom) and weld the components to the fabricated PCB according to this table. After welding, please carefully check whether there is residual solder between the pins, which will lead to short circuit of the circuit board. At the same time, you should also check whether there is false soldering of the pins.
 
 &nbsp;&nbsp;&nbsp;&nbsp;After welding, use a multimeter to check whether there is a short circuit between 5V power interface and GND, and whether there is a short circuit between 3.3V power output and GND. When the above situation does not occur, connect the board to the USB port of the computer. At this time, you should see that the power indicator on the board is on, and the computer can recognize the USB HUB chip.
 
