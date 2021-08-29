@@ -8,7 +8,9 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 
 ### Brief Introduction
 
-&nbsp;&nbsp;&nbsp;&nbsp;The purpose of this project is to provide [Intel® NUC](https://www.intel.com/content/www/us/en/products/details/nuc.html) and other x86 device with a CAN (Controller Area Network) peripheral interface. Since NUC and most x86 device does not have simple peripheral interfaces such as SPI (Serial Peripheral Interface), it is impossible to use SPI to can chips such as MCP2515. Therefore, the project is developed based on the open source solution [candleLight](https://github.com/candle-usb/candleLight_fw/tree/master) on GitHub, and STM32F072CBT6 is used as the main control chip to realize the function of USB (Universal Serial Bus) to can. STM32F072CBT6 has USB full speed peripherals and can peripherals that can work at the same time. It is packaged as QFP64 (Quad Flat Package) and is an excellent solution.
+&nbsp;&nbsp;&nbsp;&nbsp;The purpose of this project is to provide [Intel® NUC](https://www.intel.com/content/www/us/en/products/details/nuc.html) and other x86 device with a CAN (Controller Area Network) peripheral interface. Since NUC and most x86 device does not have simple peripheral interfaces such as SPI (Serial Peripheral Interface), it is impossible to use SPI to can chips such as MCP2515. Therefore, the project is developed based on the open source solution [candleLight](https://github.com/candle-usb/candleLight_fw/tree/master) on GitHub, and STM32F072CBT6 is used as the main control chip to realize the function of USB (Universal Serial Bus) to can. STM32F072CBT6 has USB full speed peripherals and can peripherals that can work at the same time. It is packaged as QFP64 (Quad Flat Package) and is an excellent solution.The following figure shows the physical connection between Intel NUC and usb2can.
+
+![usb_hub](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/nuc_with_usb2can.jpg)
 
 ***
 

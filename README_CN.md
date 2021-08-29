@@ -8,7 +8,9 @@
 
 ### 简介
 
-&nbsp;&nbsp;&nbsp;&nbsp;本项目的开发目的是为了给[英特尔® NUC](https://www.intel.cn/content/www/cn/zh/products/details/nuc.html)及其它x86架构的平台提供一个CAN (Controller Area Network)的外设接口。由于NUC及大部分x86不具有SPI等简单外设接口，故无法使用MCP2515等SPI (Serial Peripheral Interface) 转CAN芯片。为此，本项目基于github的开源方案[candleLight](https://github.com/candle-usb/candleLight_fw/tree/master)开发，采用STM32F072CBT6作为主控芯片，实现USB (Universal Serial Bus) 转CAN的功能。STM32F072CBT6具有能够同时工作的USB全速外设和CAN外设，封装为QFP64 (Quad Flat Package)，是较为优秀的解决方案。
+&nbsp;&nbsp;&nbsp;&nbsp;本项目的开发目的是为了给[英特尔® NUC](https://www.intel.cn/content/www/cn/zh/products/details/nuc.html)及其它x86架构的平台提供一个CAN (Controller Area Network)的外设接口。由于NUC及大部分x86不具有SPI等简单外设接口，故无法使用MCP2515等SPI (Serial Peripheral Interface) 转CAN芯片。为此，本项目基于github的开源方案[candleLight](https://github.com/candle-usb/candleLight_fw/tree/master)开发，采用STM32F072CBT6作为主控芯片，实现USB (Universal Serial Bus) 转CAN的功能。STM32F072CBT6具有能够同时工作的USB全速外设和CAN外设，封装为QFP64 (Quad Flat Package)，是较为优秀的解决方案。下图为Intel NUC与USB2CAN连接实物图。
+
+![usb_hub](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/image/nuc_with_usb2can.jpg)
 
 ***
 
