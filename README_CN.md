@@ -31,6 +31,8 @@
 + image：README中的图片。
 + firmware.bin：编译好的程序二进制文件。
 
+**注意：circuit文件夹下的PCB和原理图是示例电路，直接用它制造生产结果不是图示的产品。若想直接复现图示版本，请用gerber文件夹下的生产文件。**
+
 ***
 
 ### 电路设计
@@ -56,7 +58,7 @@
 
 ### 电路制作
 
-&nbsp;&nbsp;&nbsp;&nbsp;我们提供了三个不同版本的Gerber文件用于生产，分别是扩展：[两路CAN+两路UART](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2CAN%2B2UART)、[四路CAN](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/4CAN)、[两路UART](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2UART)。这三种版本的电路均采用两层PCB进行设计，面积约为20*30mm。你可以直接将打包好的gerber文件提交个生产厂家（如：[嘉立创](https://www.jlc.com/#)）进行生产。
+&nbsp;&nbsp;&nbsp;&nbsp;我们提供了三个不同版本的Gerber文件用于生产，分别是扩展：[两路CAN+UART+DBUS](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/2CAN%2BUART%2BDBUS)、[四路CAN](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/4CAN)、[UART+DBUS](https://github.com/rm-controls/rm_usb2can/tree/main/gerber/UART%2BDBUS)。这三种版本的电路均采用两层PCB进行设计，面积约为20*30mm。你可以直接将打包好的gerber文件提交个生产厂家（如：[嘉立创](https://www.jlc.com/#)）进行生产。
 
 &nbsp;&nbsp;&nbsp;&nbsp;你可以在[此处](https://github.com/rm-controls/rm_usb2can/tree/main/bom)找到该板对应的BOM (Bill Of Material) 表，并且依据这张表格将元器件焊接到已经制作好的PCB上。焊接完成后，请仔细检查是否有引脚之间有残余的焊锡，那将会导致电路板发生短路，同时你还要检查引脚是否有虚焊的现象发生。
 
