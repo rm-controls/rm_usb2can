@@ -70,7 +70,7 @@
 
 ### 固件烧录
 
-&nbsp;&nbsp;&nbsp;&nbsp;你可以[点击此处](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/firmware.bin)下载已经编译好的固件，或者是跟随[candleLight文档](https://github.com/candle-usb/candleLight_fw/tree/master#building)自行编译固件。最终你会得到.bin文件，我们使用[STM32CubeProgrammer](https://www.st.com/zh/development-tools/stm32cubeprog.html)来将固件通过USB烧录到STM32中。下面展示了下载固件的步骤：
+&nbsp;&nbsp;&nbsp;&nbsp;你可以[点击此处](https://github.com/rm-controls/rm_usb2can/releases/download/firmware_v1_0/candleLight.bin)下载已经编译好的固件，或者是跟随[candleLight文档](https://github.com/candle-usb/candleLight_fw/tree/master#building)自行编译固件。最终你会得到.bin文件，我们使用[STM32CubeProgrammer](https://www.st.com/zh/development-tools/stm32cubeprog.html)来将固件通过USB烧录到STM32中。下面展示了下载固件的步骤：
 
 1. 将STM32上BOOT0引脚的下拉电阻取下，焊接上上拉电阻。
 2. 将板子连接到电脑的USB口中，打开STM32CubeProgrammer。

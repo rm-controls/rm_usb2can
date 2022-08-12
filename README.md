@@ -70,7 +70,7 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 
 ### Firmware Programming
 
-&nbsp;&nbsp;&nbsp;&nbsp;You can [click here](https://raw.githubusercontent.com/rm-controls/rm_usb2can/main/firmware.bin) to download the compiled firmware, or follow the [candlelight documentation](https://github.com/candle-usb/candleLight_fw/tree/master#building) compile firmware by yourself. Finally, you will get the .bin file. We use [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html) to burn the firmware into STM32 through USB. The steps to download firmware are shown below:
+&nbsp;&nbsp;&nbsp;&nbsp;You can [click here](https://github.com/rm-controls/rm_usb2can/releases/download/firmware_v1_0/candleLight.bin) to download the compiled firmware, or follow the [candlelight documentation](https://github.com/candle-usb/candleLight_fw/tree/master#building) to compile firmware by yourself. Finally, you will get the .bin file. We use [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html) to burn the firmware into STM32 through USB. The steps to download firmware are shown below:
 
 1. Remove the pull-down resistance of BOOT0 pin of STM32 and weld the pull-up resistance.
 2. Connect the board to the USB port of the computer and open STM32CubeProgrammer.
