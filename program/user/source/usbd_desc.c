@@ -24,23 +24,24 @@ THE SOFTWARE.
 
 */
 
+#include <stdint.h>
 #include <string.h>
-#include "usbd_core.h"
+#include "usbd_ctlreq.h"
 #include "usbd_desc.h"
 #include "config.h"
 #include "util.h"
 
-uint8_t *USBD_FS_DeviceDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_FS_LangIDStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_FS_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_FS_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_FS_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_DeviceDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_LangIDStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 
 #ifdef USB_SUPPORT_USER_STRING_DESC
 uint8_t *USBD_FS_USRStringDesc(USBD_SpeedTypeDef speed, uint8_t idx, uint16_t *length);
-#endif /* USB_SUPPORT_USER_STRING_DESC */  
+#endif /* USB_SUPPORT_USER_STRING_DESC */
 
 const USBD_DescriptorsTypeDef FS_Desc = {
 	USBD_FS_DeviceDescriptor,
@@ -74,7 +75,7 @@ static const uint8_t USBD_FS_DeviceDesc[USB_LEN_DEV_DESC] = {
 	USBD_IDX_PRODUCT_STR,       /* Index of product string */
 	USBD_IDX_SERIAL_STR,        /* Index of serial number string */
 	USBD_MAX_NUM_CONFIGURATION  /* bNumConfigurations */
-} ;
+};
 
 /* USB Standard Device Descriptor */
 static const uint8_t USBD_LangIDDesc[USB_LEN_LANGID_STR_DESC] =
@@ -121,7 +122,7 @@ uint8_t *USBD_FS_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
 
 	UNUSED(speed);
 
-	hex32(buf     , *(uint32_t*)(UID_BASE    ));
+	hex32(buf,		*(uint32_t*)(UID_BASE    ));
 	hex32(buf +  8, *(uint32_t*)(UID_BASE + 4));
 	hex32(buf + 16, *(uint32_t*)(UID_BASE + 8));
 

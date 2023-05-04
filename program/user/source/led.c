@@ -24,24 +24,26 @@ THE SOFTWARE.
 
 */
 
-#include "led.h"
 #include <string.h>
+
+#include "led.h"
 #include "hal_include.h"
+#include "util.h"
 
 #define SEQ_ISPASSED(now, target) ((int32_t) ((now) - (target)) >= 0)
 
 void led_init(
 	led_data_t *leds,
-	void* led1_port, uint16_t led1_pin, bool led1_active_high,
-	void* led2_port, uint16_t led2_pin, bool led2_active_high
-) {
+	void* led_rx_port, uint16_t led_rx_pin, bool led_rx_active_high,
+	void* led_tx_port, uint16_t led_tx_pin, bool led_tx_active_high
+	) {
 	memset(leds, 0, sizeof(led_data_t));
-	leds->led_state[0].port = led1_port;
-	leds->led_state[0].pin = led1_pin;
-	leds->led_state[0].is_active_high = led1_active_high;
-	leds->led_state[1].port = led2_port;
-	leds->led_state[1].pin = led2_pin;
-	leds->led_state[1].is_active_high = led2_active_high;
+	leds->led_state[led_rx].port = led_rx_port;
+	leds->led_state[led_rx].pin = led_rx_pin;
+	leds->led_state[led_rx].is_active_high = led_rx_active_high;
+	leds->led_state[led_tx].port = led_tx_port;
+	leds->led_state[led_tx].pin = led_tx_pin;
+	leds->led_state[led_tx].is_active_high = led_tx_active_high;
 }
 
 void led_set_mode(led_data_t *leds,led_mode_t mode)
@@ -61,21 +63,20 @@ static void led_set(led_state_t *led, bool state)
 
 static uint32_t led_set_sequence_step(led_data_t *leds, uint32_t step_num)
 {
-	led_seq_step_t *step = &leds->sequence[step_num];
+	const led_seq_step_t *step = &leds->sequence[step_num];
 	leds->sequence_step = step_num;
-	led_set(&leds->led_state[0], step->state & 0x01);
-	led_set(&leds->led_state[1], step->state & 0x02);
+	led_set(&leds->led_state[led_rx], step->state & 0x01);
+	led_set(&leds->led_state[led_tx], step->state & 0x02);
 	uint32_t delta = 10 * step->time_in_10ms;
 	if (delta > INT32_MAX) {
-		delta = INT32_MAX;	//clamp
+		delta = INT32_MAX;  //clamp
 	}
 	leds->t_sequence_next = HAL_GetTick() + delta;
 	return delta;
 }
 
-void led_run_sequence(led_data_t *leds, led_seq_step_t *sequence, int32_t num_repeat)
+void led_run_sequence(led_data_t *leds, const led_seq_step_t *sequence, int32_t num_repeat)
 {
-	leds->last_mode = leds->mode;
 	leds->mode = led_mode_sequence;
 	leds->sequence = sequence;
 	leds->seq_num_repeat = num_repeat;
@@ -83,23 +84,25 @@ void led_run_sequence(led_data_t *leds, led_seq_step_t *sequence, int32_t num_re
 	led_update(leds);
 }
 
-void led_indicate_trx(led_data_t *leds, led_num_t num)
-{
-	uint32_t now = HAL_GetTick();
-	led_state_t *led = &leds->led_state[num];
-
-	if ( SEQ_ISPASSED(now, led->on_until) &&
-		SEQ_ISPASSED(now, led->off_until) ) {
-		led->off_until = now + 30;
-		led->on_until = now + 45;
-	}
-
-	led_update(leds);
+void led_indicate_trx(led_data_t *leds, led_num_t num) {
+	leds->led_state[num].blink_request = 1;
 }
 
-static void led_update_normal_mode(led_state_t *led)
+static void led_trx_blinker(led_state_t *ledstate, uint32_t now) {
+	if ( SEQ_ISPASSED(now, ledstate->on_until) &&
+		 SEQ_ISPASSED(now, ledstate->off_until) ) {
+		ledstate->off_until = now + 30;
+		ledstate->on_until = now + 45;
+	}
+}
+
+static void led_update_normal_mode(led_state_t *led, uint32_t now)
 {
-	uint32_t now = HAL_GetTick();
+	if (led->blink_request) {
+		led->blink_request = 0;
+		led_trx_blinker(led, now);
+	}
+
 	led_set(led, SEQ_ISPASSED(now, led->off_until));
 }
 
@@ -137,16 +140,23 @@ static void led_update_sequence(led_data_t *leds)
 
 void led_update(led_data_t *leds)
 {
+	static uint32_t next_update = 0;
+	uint32_t now = HAL_GetTick();
+	if (!SEQ_ISPASSED(now, next_update)) {
+		return;
+	}
+	next_update = now + LED_UPDATE_INTERVAL;
+
 	switch (leds->mode) {
 
 		case led_mode_off:
-			led_set(&leds->led_state[0], false);
-			led_set(&leds->led_state[1], false);
+			led_set(&leds->led_state[led_rx], false);
+			led_set(&leds->led_state[led_tx], false);
 			break;
 
 		case led_mode_normal:
-			led_update_normal_mode(&leds->led_state[0]);
-			led_update_normal_mode(&leds->led_state[1]);
+			led_update_normal_mode(&leds->led_state[led_rx], now);
+			led_update_normal_mode(&leds->led_state[led_tx], now);
 			break;
 
 		case led_mode_sequence:
@@ -154,7 +164,6 @@ void led_update(led_data_t *leds)
 			break;
 
 		default:
-			led_set(&leds->led_state[0], false);
-			led_set(&leds->led_state[1], true);
+			assert_failed();
 	}
 }

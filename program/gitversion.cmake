@@ -7,12 +7,12 @@ find_package(Git)
 # e.g. add spaces in the format string, will not work easily.
 
 if (Git_FOUND)
-	execute_process(COMMAND ${GIT_EXECUTABLE} log --pretty=format:fw_%h_%as -n 1
-		OUTPUT_VARIABLE GIT_REV
-		ERROR_QUIET
-		WORKING_DIRECTORY ${SRCDIR}
-	)
-endif()
+    execute_process(COMMAND ${GIT_EXECUTABLE} log --pretty=format:fw_%h_%as -n 1
+            OUTPUT_VARIABLE GIT_REV
+            ERROR_QUIET
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            )
+endif ()
 
 # Check whether we got any revision (which isn't
 # always the case, e.g. when someone downloaded a zip
@@ -21,32 +21,32 @@ if ("${GIT_REV}" STREQUAL "")
     set(GIT_REV "N/A")
     set(GIT_DIFF "")
     set(GIT_TAG "N/A")
-else()
+else ()
     execute_process(
-		COMMAND ${GIT_EXECUTABLE} diff --quiet --exit-code
-		RESULT_VARIABLE GIT_DIRTY
-		WORKING_DIRECTORY ${SRCDIR})
+            COMMAND ${GIT_EXECUTABLE} diff --quiet --exit-code
+            RESULT_VARIABLE GIT_DIRTY
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     execute_process(
-        COMMAND git describe --exact-match --tags
-        OUTPUT_VARIABLE GIT_TAG
-		ERROR_QUIET
-		WORKING_DIRECTORY ${SRCDIR})
-	if (NOT "${GIT_DIRTY}" EQUAL 0)
-		#append '+' if unclean tree
-		set(GIT_DIFF "+")
-	endif()
+            COMMAND git describe --exact-match --tags
+            OUTPUT_VARIABLE GIT_TAG
+            ERROR_QUIET
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    if (NOT "${GIT_DIRTY}" EQUAL 0)
+        #append '+' if unclean tree
+        set(GIT_DIFF "+")
+    endif ()
 
     string(STRIP "${GIT_REV}" GIT_REV)
-endif()
+endif ()
 
 set(VERSION "#define GIT_HASH \"${GIT_REV}${GIT_DIFF}\"\n")
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/version.h)
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/version.h)
     file(READ ${CMAKE_CURRENT_SOURCE_DIR}/version.h VERSION_)
-else()
+else ()
     set(VERSION_ "")
-endif()
+endif ()
 
 if (NOT "${VERSION}" STREQUAL "${VERSION_}")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/version.h "${VERSION}")
-endif()
+endif ()

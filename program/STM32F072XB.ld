@@ -1,16 +1,14 @@
-__STACK_SIZE = 2K;
-__HEAP_SIZE  = 10K;
+__STACK_SIZE = 2k;
+__HEAP_SIZE  = 0k;
 
-__FLASH_SIZE = 128K;
-__NVM_SIZE = 1K;
+__FLASH_SIZE = 128k;
+__RAM_SIZE = 16k;
 
 MEMORY
 {
-  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = __FLASH_SIZE - __NVM_SIZE
-  RAM   (rwx) : ORIGIN = 0x20000000, LENGTH = 16K
-  DATA (xrw) : ORIGIN = 0x08000000 + __FLASH_SIZE - __NVM_SIZE, LENGTH = __NVM_SIZE
+  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 128k
+  RAM   (rw) : ORIGIN = 0x20000000, LENGTH = 16k
 }
-
 
 ENTRY(Reset_Handler)
 
@@ -65,21 +63,39 @@ SECTIONS
     __copy_table_end__ = .;
   } > FLASH
 
-  .zero.table :
+
+  .preinit_array     :
   {
     . = ALIGN(4);
-    __zero_table_start__ = .;
-    __zero_table_end__ = .;
-  } > FLASH
+    /* preinit data */
+    PROVIDE_HIDDEN (__preinit_array_start = .);
+    KEEP(*(.preinit_array))
+    PROVIDE_HIDDEN (__preinit_array_end = .);
+    . = ALIGN(4);
+  } >FLASH
+
+  .init_array :
+  {
+    . = ALIGN(4);
+    /* init data */
+    PROVIDE_HIDDEN (__init_array_start = .);
+    KEEP(*(SORT(.init_array.*)))
+    KEEP(*(.init_array))
+    PROVIDE_HIDDEN (__init_array_end = .);
+    . = ALIGN(4);
+  } >FLASH
+
+  .fini_array :
+  {
+    . = ALIGN(4);
+    PROVIDE_HIDDEN (__fini_array_start = .);
+    KEEP (*(SORT(.fini_array.*)))
+    KEEP (*(.fini_array*))
+    PROVIDE_HIDDEN (__fini_array_end = .);
+    . = ALIGN(4);
+  } >FLASH
 
   __etext = ALIGN (4);
-
-  .user_data :
-  {
-    . = ALIGN(4);
-    *(.user_data)
-    . = ALIGN(4);
-  } > DATA
 
   .data : AT (__etext)
   {
@@ -88,28 +104,7 @@ SECTIONS
     *(.data)
     *(.data.*)
 
-    . = ALIGN(4);
-    /* preinit data */
-    PROVIDE_HIDDEN (__preinit_array_start = .);
-    KEEP(*(.preinit_array))
-    PROVIDE_HIDDEN (__preinit_array_end = .);
 
-    . = ALIGN(4);
-    /* init data */
-    PROVIDE_HIDDEN (__init_array_start = .);
-    KEEP(*(SORT(.init_array.*)))
-    KEEP(*(.init_array))
-    PROVIDE_HIDDEN (__init_array_end = .);
-
-
-    . = ALIGN(4);
-    /* finit data */
-    PROVIDE_HIDDEN (__fini_array_start = .);
-    KEEP(*(SORT(.fini_array.*)))
-    KEEP(*(.fini_array))
-    PROVIDE_HIDDEN (__fini_array_end = .);
-
-    KEEP(*(.jcr*))
     . = ALIGN(4);
     /* All data end */
     __data_end__ = .;

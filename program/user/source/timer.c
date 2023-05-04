@@ -24,28 +24,27 @@ THE SOFTWARE.
 
 */
 
-#include "config.h"
+#include "timer.h"
 #include "hal_include.h"
 
-// must run before can_init
-void gpio_init() {
-    GPIO_InitTypeDef GPIO_InitStruct;
+void timer_init(void)
+{
+	__HAL_RCC_TIM2_CLK_ENABLE();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
+	TIM2->CR1 = 0;
+	TIM2->CR2 = 0;
+	TIM2->SMCR = 0;
+	TIM2->DIER = 0;
+	TIM2->CCMR1 = 0;
+	TIM2->CCMR2 = 0;
+	TIM2->CCER = 0;
+	TIM2->PSC = 48-1; // run @48MHz/480 = 1MHz = 1us
+	TIM2->ARR = 0xFFFFFFFF;
+	TIM2->CR1 |= TIM_CR1_CEN;
+	TIM2->EGR = TIM_EGR_UG;
+}
 
-    HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-    GPIO_InitStruct.Pin = LED1_Pin;
-    GPIO_InitStruct.Mode = LED1_Mode;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(LED1_GPIO_Port, &GPIO_InitStruct);
-
-    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-    GPIO_InitStruct.Pin = LED2_Pin;
-    GPIO_InitStruct.Mode = LED2_Mode;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(LED2_GPIO_Port, &GPIO_InitStruct);
+uint32_t timer_get(void)
+{
+	return TIM2->CNT;
 }

@@ -1,8 +1,10 @@
+#pragma once
+
 /*
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Hubert Denkmair
+Copyright (c) 2022 fenugrec
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +26,9 @@ THE SOFTWARE.
 
 */
 
-#pragma once
+#include "can.h"
+#include "hal_include.h"
 
-#include <stdbool.h>
-#include <stdint.h>
+void device_can_init(can_data_t *hcan, CAN_TypeDef *instance);
 
-void flash_load();
-bool flash_set_user_id(uint8_t channel, uint32_t user_id);
-uint32_t flash_get_user_id(uint8_t channel);
-void flash_flush();
+void device_sysclock_config(void);
