@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #include <stdlib.h>
 #include <string.h>
+#include "iwdg.h"
 
 #include "config.h"
 #include "hal_include.h"
@@ -44,7 +45,9 @@ THE SOFTWARE.
 #include "util.h"
 
 void SystemClock_Config(void);
+
 static bool send_to_host_or_enqueue(struct gs_host_frame *frame);
+
 static void send_to_host();
 
 can_data_t hCAN = {0};
@@ -64,6 +67,8 @@ int main(void) {
     SystemClock_Config();
     flash_load();
     gpio_init();
+    MX_IWDG_Init();
+
     led_init(&hLED, LED1_GPIO_Port, LED1_Pin, LED1_Active_High, LED2_GPIO_Port, LED2_Pin, LED2_Active_High);
 
     /* nice wake-up pattern */
@@ -108,6 +113,7 @@ int main(void) {
                 send_to_host_or_enqueue(frame);
 
                 led_indicate_trx(&hLED, led_2);
+                HAL_IWDG_Refresh(&hiwdg);
             } else {
                 queue_push_front(q_from_host, frame); // retry later
             }
@@ -132,6 +138,8 @@ int main(void) {
                     send_to_host_or_enqueue(frame);
 
                     led_indicate_trx(&hLED, led_1);
+                    HAL_IWDG_Refresh(&hiwdg);
+
                 } else {
                     queue_push_back(q_frame_pool, frame);
                 }
@@ -181,8 +189,8 @@ void SystemClock_Config(void) {
     HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK |
-        RCC_CLOCKTYPE_SYSCLK |
-        RCC_CLOCKTYPE_PCLK1;
+                                  RCC_CLOCKTYPE_SYSCLK |
+                                  RCC_CLOCKTYPE_PCLK1;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI48;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
