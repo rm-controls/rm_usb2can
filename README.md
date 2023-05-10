@@ -54,7 +54,7 @@ English/[中文](https://github.com/rm-controls/rm_usb2can/blob/main/README_CN.m
 
 ### Circuit Making
 
-&nbsp;&nbsp;&nbsp;&nbsp;We provide Gerber files that can be used directly for manufacturing in the [manufacturer folder](https://github.com/rm-controls/rm_usb2can/tree/main/manufacture). This version can realize one way USB to 2 way CAN + 2 way UART, and its circuit schematic is shown in the [circuit folder](https://github.com/rm-controls/rm_usb2can/tree/main/circuit). You can submit the packaged Gerber file directly to a manufacturer (e.g., [Jalitron](https://www.jlc.com/#)) for production.
+&nbsp;&nbsp;&nbsp;&nbsp;We provide Gerber files that can be used directly for manufacturing in the [manufacturer folder](https://github.com/rm-controls/rm_usb2can/tree/main/manufacture). This version can realize one way USB to 2 way CAN + 2 way UART, and its circuit schematic is shown in the [circuit folder](https://github.com/rm-controls/rm_usb2can/tree/main/circuit). You can submit the packaged Gerber file directly to a manufacturer (e.g., [PCB Way](https://www.pcbway.com/)) for production.
 
 &nbsp;&nbsp;&nbsp;&nbsp;You can also find the corresponding BOM (Bill Of Material) table for the board in the [manufacturer folder](https://github.com/rm-controls/rm_usb2can/tree/main/manufacture) and solder the components to the already made PCB according to this table. After the soldering is complete, please carefully check whether there is residual solder between the pins, that will lead to a short circuit on the board, and you also have to check whether the pins have the phenomenon of false solder.
 
