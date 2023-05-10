@@ -62,10 +62,17 @@ static inline bool disable_irq(void)
 	return was_enabled;
 }
 
-static inline void enable_irq()
+static inline void enable_irq(void)
 {
 	__enable_irq();
-    __ISB();
+	__ISB();
+}
+
+static inline void restore_irq(bool was_enabled)
+{
+	if (was_enabled) {
+		enable_irq();
+	}
 }
 
 /* Lightweight assert macro to replace standard assert()
@@ -81,9 +88,9 @@ static inline void enable_irq()
  *
  */
 #define assert_basic(exp)   \
-		if (exp) {			\
-		} else 				\
-			assert_failed()
+	if (exp) {          \
+	} else              \
+	assert_failed()
 
 /** halt / set core to debug state with BKPT.
  *
