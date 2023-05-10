@@ -55,9 +55,6 @@ THE SOFTWARE.
 #define CAN_INTERFACE             CAN
 #define CAN_CLOCK_SPEED             48000000
 
-#define CAN_S_Pin                 GPIO_PIN_13
-#define CAN_S_GPIO_Port             GPIOC
-
 #define LEDRX_Pin                 GPIO_PIN_0
 #define LEDRX_Mode                 GPIO_MODE_OUTPUT_OD
 #define LEDRX_GPIO_Port             GPIOA
