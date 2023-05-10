@@ -1,8 +1,10 @@
+#pragma once
+
 /*
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Hubert Denkmair
+Copyright (c) 2022 fenugrec
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +26,9 @@ THE SOFTWARE.
 
 */
 
-#pragma once
+#include "can.h"
+#include "hal_include.h"
 
-void dfu_run_bootloader(void);
+void device_can_init(can_data_t *hcan, CAN_TypeDef *instance);
+
+void device_sysclock_config(void);

@@ -29,8 +29,10 @@ THE SOFTWARE.
 * - LED pin assignments and polarity
 * - other special pins to control CAN transceivers.
 *
-* CAN_S_PIN :Some CAN transceivers (e.g. TJA1050) have a "Silent mode in which the transmitter is disabled";
+* CAN_S_PIN: Some CAN transceivers (e.g. TJA1050) have a "Silent mode in which the transmitter is disabled";
 * enabled with this 'S' pin. If undefined, the corresponding code will be disabled.
+*
+* TERM_Pin: Add support for an externally controlled terminating resistor
 *
 */
 
@@ -38,24 +40,30 @@ THE SOFTWARE.
 
 #include "version.h"
 
-#define CAN_QUEUE_SIZE                  64
+#define CAN_QUEUE_SIZE                 64
 
-#define USBD_VID                        0x1d50
+#define USBD_VID                     0x1d50
 #define USBD_PID_FS                     0x606f
-#define USBD_LANGID_STRING              1033
-#define USBD_CONFIGURATION_STRING_FS    (uint8_t*) GIT_HASH
-#define USBD_INTERFACE_STRING_FS        (uint8_t*) "gs_usb interface"
+#define USBD_LANGID_STRING             1033
+#define USBD_CONFIGURATION_STRING_FS (uint8_t*) GIT_HASH
+#define USBD_INTERFACE_STRING_FS     (uint8_t*) "gs_usb interface"
 
-#define USBD_PRODUCT_STRING_FS          (uint8_t*) "candleLight USB to CAN adapter"
-#define USBD_MANUFACTURER_STRING        (uint8_t*) "bytewerk"
-#define DFU_INTERFACE_STRING_FS         (uint8_t*) "candleLight firmware upgrade interface"
+#define USBD_PRODUCT_STRING_FS     (uint8_t*) "candleLight USB to CAN adapter"
+#define USBD_MANUFACTURER_STRING (uint8_t*) "bytewerk"
+#define DFU_INTERFACE_STRING_FS     (uint8_t*) "candleLight firmware upgrade interface"
 
-#define LED1_Pin GPIO_PIN_0
-#define LED1_Mode GPIO_MODE_OUTPUT_OD
-#define LED1_GPIO_Port GPIOA
-#define LED1_Active_High 0
+#define CAN_INTERFACE             CAN
+#define CAN_CLOCK_SPEED             48000000
 
-#define LED2_GPIO_Port GPIOA
-#define LED2_Pin GPIO_PIN_1
-#define LED2_Mode GPIO_MODE_OUTPUT_OD
-#define LED2_Active_High 0
+#define CAN_S_Pin                 GPIO_PIN_13
+#define CAN_S_GPIO_Port             GPIOC
+
+#define LEDRX_Pin                 GPIO_PIN_0
+#define LEDRX_Mode                 GPIO_MODE_OUTPUT_OD
+#define LEDRX_GPIO_Port             GPIOA
+#define LEDRX_Active_High         0
+
+#define LEDTX_GPIO_Port             GPIOA
+#define LEDTX_Pin                 GPIO_PIN_1
+#define LEDTX_Mode                 GPIO_MODE_OUTPUT_OD
+#define LEDTX_Active_High         0

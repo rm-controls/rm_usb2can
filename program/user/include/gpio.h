@@ -26,4 +26,30 @@ THE SOFTWARE.
 
 #pragma once
 
-void gpio_init();
+#include "gs_usb.h"
+#include "config.h"
+
+void gpio_init(void);
+
+/* macro to define init (i.e. reset) state of a pin */
+#define GPIO_INIT_STATE(ACTIVE_HIGH) (((ACTIVE_HIGH) == 1) ? GPIO_PIN_RESET : GPIO_PIN_SET)
+
+#ifdef TERM_Pin
+enum gs_can_termination_state set_term(unsigned int channel, enum gs_can_termination_state state);
+enum gs_can_termination_state get_term(unsigned int channel);
+
+#else
+static inline enum gs_can_termination_state set_term(unsigned int channel, enum gs_can_termination_state state)
+{
+	(void)channel;
+	(void)state;
+	return GS_CAN_TERMINATION_UNSUPPORTED;
+}
+
+static inline enum gs_can_termination_state get_term(unsigned int channel)
+{
+	(void)channel;
+	return GS_CAN_TERMINATION_UNSUPPORTED;
+}
+
+#endif

@@ -29,9 +29,8 @@ THE SOFTWARE.
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "gs_usb.h"
 #include "hal_include.h"
-
-#include <gs_usb.h>
 
 typedef struct {
 	CAN_TypeDef *instance;
@@ -56,8 +55,6 @@ bool can_send(can_data_t *hcan, struct gs_host_frame *frame);
  * LEC (last error code).
  */
 uint32_t can_get_error_status(can_data_t *hcan);
-
-#define CAN_ERRCOUNT_THRESHOLD 15	/* send an error frame if tx/rx counters increase by more than this amount */
 
 /** parse status value returned by can_get_error_status().
  * @param frame : will hold the generated error frame

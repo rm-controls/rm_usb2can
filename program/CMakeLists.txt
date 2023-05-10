@@ -29,7 +29,7 @@ add_compile_options(
         -ffunction-sections -fdata-sections
         -ffreestanding
         -fno-move-loop-invariants
-        -Os -g3
+        -Ofast
         -flto -ffat-lto-objects
         --specs=nano.specs
         --specs=nosys.specs
@@ -40,14 +40,14 @@ add_compile_options($<$<COMPILE_LANGUAGE:ASM>:-x$<SEMICOLON>assembler-with-cpp>)
 
 add_custom_target(version_h BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/version.h"
         COMMAND ${CMAKE_COMMAND}
-        -D SRCDIR="${CMAKE_CURRENT_SOURCE_DIR}"
+        -D SRCDIR= "${CMAKE_CURRENT_SOURCE_DIR}"
         -P ${CMAKE_CURRENT_SOURCE_DIR}/gitversion.cmake)
 
 include_directories(library/include system user/include system/cmsis usb ${CMAKE_CURRENT_BINARY_DIR})
 
-add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F072xB)
+add_definitions(-DUSE_HAL_DRIVER -DSTM32F072xB)
 
-file(GLOB_RECURSE SOURCES "user/src/*.c" "library/source/*.c" "usb/*.c" "system/*.c")
+file(GLOB_RECURSE SOURCES "user/source/*.c" "library/source/*.c" "usb/*.c" "system/*.c")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F072XB.ld)
 

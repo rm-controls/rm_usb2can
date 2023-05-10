@@ -29,6 +29,9 @@ THE SOFTWARE.
 #include <stdint.h>
 #include <stdbool.h>
 
+
+#define LED_UPDATE_INTERVAL 10  // number of ticks from HAL_GetTick
+
 typedef enum {
 	led_mode_off,
 	led_mode_normal,
@@ -38,8 +41,8 @@ typedef enum {
 } led_mode_t;
 
 typedef enum {
-	led_1,
-	led_2
+	led_rx = 0, //will also index into array led_state[]
+	led_tx
 } led_num_t;
 
 typedef struct {
@@ -51,15 +54,16 @@ typedef struct {
 	void* port;
 	uint16_t pin;
 	bool is_active_high;
+
+	bool blink_request;
 	uint32_t on_until;
 	uint32_t off_until;
 } led_state_t;
 
 typedef struct {
 	led_mode_t mode;
-	led_mode_t last_mode;
 
-	led_seq_step_t *sequence;
+	const led_seq_step_t *sequence;
 	uint32_t sequence_step;
 	uint32_t t_sequence_next;
 	int32_t seq_num_repeat;
@@ -70,10 +74,10 @@ typedef struct {
 
 void led_init(
 	led_data_t *leds,
-	void* led1_port, uint16_t led1_pin, bool led1_active_high,
-	void* led2_port, uint16_t led2_pin, bool led2_active_high
-);
+	void* led_rx_port, uint16_t led_rx_pin, bool led_rx_active_high,
+	void* led_tx_port, uint16_t led_tx_pin, bool led_tx_active_high
+	);
 void led_set_mode(led_data_t *leds,led_mode_t mode);
-void led_run_sequence(led_data_t *leds, led_seq_step_t *sequence, int32_t num_repeat);
+void led_run_sequence(led_data_t *leds, const led_seq_step_t *sequence, int32_t num_repeat);
 void led_indicate_trx(led_data_t *leds, led_num_t num);
 void led_update(led_data_t *leds);
