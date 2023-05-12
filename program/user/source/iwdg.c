@@ -23,7 +23,7 @@ IWDG_HandleTypeDef hiwdg;
 void iwdg_init(void) {
     hiwdg.Instance = IWDG;
     hiwdg.Init.Prescaler = IWDG_PRESCALER_256;
-    hiwdg.Init.Window = 4096;
+    hiwdg.Init.Window = 4095;
     hiwdg.Init.Reload = 1560;
     HAL_IWDG_Init(&hiwdg);
 }

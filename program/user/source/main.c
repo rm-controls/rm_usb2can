@@ -45,7 +45,6 @@ THE SOFTWARE.
 #include "usbd_gs_can.h"
 #include "util.h"
 
-void HAL_MspInit(void);
 static void SystemClock_Config(void);
 static void send_to_host(void);
 
@@ -93,7 +92,6 @@ int main(void) {
 
     while (1) {
         struct gs_host_frame_object *frame_object;
-
         bool was_irq_enabled = disable_irq();
         frame_object = list_first_entry_or_null(&hGS_CAN.list_from_host,
                                                 struct gs_host_frame_object,
@@ -121,7 +119,7 @@ int main(void) {
             send_to_host();
 
         if (can_is_rx_pending(channel)) {
-            bool was_irq_enabled = disable_irq();
+            was_irq_enabled = disable_irq();
             frame_object = list_first_entry_or_null(&hGS_CAN.list_frame_pool,
                                                     struct gs_host_frame_object,
                                                     list);
@@ -145,14 +143,10 @@ int main(void) {
                     list_add_tail_locked(&frame_object->list, &hGS_CAN.list_frame_pool);
             } else
                 restore_irq(was_irq_enabled);
-            // If there are frames to receive, don't report any error frames. The
-            // best we can localize the errors to is "after the last successfully
-            // received frame", so wait until we get there. LEC will hold some error
-            // to report even if multiple pass by.
+
         } else {
             uint32_t can_err = can_get_error_status(channel);
-
-            bool was_irq_enabled = disable_irq();
+            was_irq_enabled = disable_irq();
             frame_object = list_first_entry_or_null(&hGS_CAN.list_frame_pool,
                                                     struct gs_host_frame_object,
                                                     list);
