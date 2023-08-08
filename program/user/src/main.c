@@ -25,8 +25,6 @@ THE SOFTWARE.
 */
 
 #include <stdlib.h>
-#include <string.h>
-
 #include "config.h"
 #include "hal_include.h"
 #include "usbd_def.h"
@@ -118,23 +116,21 @@ int main(void) {
         }
 
         if (can_is_rx_pending(&hCAN)) {
-            struct gs_host_frame *frame = queue_pop_front(q_frame_pool);
-            if (frame != 0) {
-                if (can_receive(&hCAN, frame)) {
+            struct gs_host_frame *tx_frame = queue_pop_front(q_frame_pool);
+            if (tx_frame != 0) {
+                if (can_receive(&hCAN, tx_frame)) {
                     received_count++;
 
-                    frame->timestamp_us = timer_get();
-                    frame->echo_id = 0xFFFFFFFF; // not a echo frame
-                    frame->channel = 0;
-                    frame->flags = 0;
-                    frame->reserved = 0;
+                    tx_frame->timestamp_us = timer_get();
+                    tx_frame->echo_id = 0xFFFFFFFF; // not a echo frame
+                    tx_frame->channel = 0;
+                    tx_frame->flags = 0;
+                    tx_frame->reserved = 0;
 
-                    send_to_host_or_enqueue(frame);
-
+                    send_to_host_or_enqueue(tx_frame);
                     led_indicate_trx(&hLED, led_1);
-                } else {
-                    queue_push_back(q_frame_pool, frame);
-                }
+                } else
+                    queue_push_back(q_frame_pool, tx_frame);
             }
             // If there are frames to receive, don't report any error frames. The
             // best we can localize the errors to is "after the last successfully
@@ -142,15 +138,14 @@ int main(void) {
             // to report even if multiple pass by.
         } else {
             uint32_t can_err = can_get_error_status(&hCAN);
-            struct gs_host_frame *frame = queue_pop_front(q_frame_pool);
-            if (frame != 0) {
-                frame->timestamp_us = timer_get();
-                if (can_parse_error_status(can_err, last_can_error_status, &hCAN, frame)) {
-                    send_to_host_or_enqueue(frame);
+            struct gs_host_frame *err_frame = queue_pop_front(q_frame_pool);
+            if (err_frame != 0) {
+                err_frame->timestamp_us = timer_get();
+                if (can_parse_error_status(can_err, last_can_error_status, &hCAN, err_frame)) {
+                    send_to_host_or_enqueue(err_frame);
                     last_can_error_status = can_err;
-                } else {
-                    queue_push_back(q_frame_pool, frame);
-                }
+                } else
+                    queue_push_back(q_frame_pool, err_frame);
             }
         }
 
@@ -180,9 +175,7 @@ void SystemClock_Config(void) {
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
     HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK |
-        RCC_CLOCKTYPE_SYSCLK |
-        RCC_CLOCKTYPE_PCLK1;
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI48;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -219,10 +212,9 @@ void send_to_host() {
     if (!frame)
         return;
 
-    if (USBD_GS_CAN_SendFrame(&hUSB, frame) == USBD_OK) {
+    if (USBD_GS_CAN_SendFrame(&hUSB, frame) == USBD_OK)
         queue_push_back(q_frame_pool, frame);
-    } else {
+    else
         queue_push_front(q_to_host, frame);
-    }
 }
 

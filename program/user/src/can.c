@@ -25,7 +25,6 @@ THE SOFTWARE.
 */
 
 #include "can.h"
-#include "config.h"
 
 void can_init(can_data_t *hcan, CAN_TypeDef *instance) {
     __HAL_RCC_CAN1_CLK_ENABLE();
@@ -70,7 +69,8 @@ void can_enable(can_data_t *hcan, bool loop_back, bool listen_only, bool one_sho
     uint32_t mcr = CAN_MCR_INRQ
         | CAN_MCR_ABOM
         | CAN_MCR_AWUM
-        | CAN_MCR_TXFP;
+        | CAN_MCR_TXFP
+        | CAN_MCR_NART;
 
     uint32_t btr = ((uint32_t) (hcan->sjw - 1)) << 24
         | ((uint32_t) (hcan->phase_seg1 - 1)) << 16

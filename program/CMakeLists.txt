@@ -15,7 +15,6 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # project settings
 project(candleLight C ASM)
-set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
 #Uncomment for software floating point
@@ -29,7 +28,7 @@ add_compile_options(
         -ffunction-sections -fdata-sections
         -ffreestanding
         -fno-move-loop-invariants
-        -Os -g3
+        -O2
         -flto -ffat-lto-objects
         --specs=nano.specs
         --specs=nosys.specs
@@ -54,12 +53,22 @@ set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F072XB.ld)
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m0 -mthumb -mthumb-interwork)
 add_link_options(
-        -mthumb -Wall -Wextra -g3
+        -mthumb -Wall -Wextra
         -Xlinker --gc-sections
         --specs=nano.specs
         --specs=nosys.specs
 )
 add_link_options(-T ${LINKER_SCRIPT})
+
+execute_process(
+        COMMAND ${CMAKE_C_COMPILER} -dumpversion
+        OUTPUT_VARIABLE GCC_VERSION_LOCAL
+)
+string(REGEX MATCH "[0-9]+" GCC_VERSION_LOCAL_MAJOR ${GCC_VERSION_LOCAL})
+if (GCC_VERSION_LOCAL_MAJOR GREATER 11)
+    add_link_options(-Wl,--no-warn-rwx-segments)
+endif ()
+
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
 add_dependencies(${PROJECT_NAME}.elf version_h)
 
