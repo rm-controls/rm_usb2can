@@ -88,7 +88,8 @@ int main(void) {
     USBD_GS_CAN_Init(&hGS_CAN, &hUSB, &hLED);
     USBD_Start(&hUSB);
 
-    iwdg_init();
+    /* The addition of the watchdog makes the CAN initialization sequence abnormal */
+//    iwdg_init();
 
     while (1) {
         struct gs_host_frame_object *frame_object;
@@ -138,7 +139,7 @@ int main(void) {
 
                     list_add_tail_locked(&frame_object->list, &hGS_CAN.list_to_host);
                     led_indicate_trx(&hLED, led_rx);
-                    HAL_IWDG_Refresh(&hiwdg);
+//                    HAL_IWDG_Refresh(&hiwdg);
                 } else
                     list_add_tail_locked(&frame_object->list, &hGS_CAN.list_frame_pool);
             } else
